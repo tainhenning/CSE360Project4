@@ -6,6 +6,7 @@ package Project03;
  * and open the template in the editor.
  */
 import java.awt.*;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -23,6 +24,17 @@ public class CompanionPanel extends JPanel implements Runnable {
 	GridBagConstraints gbc = new GridBagConstraints();
 	JLabel nameLabel = new JLabel("Companion Area");
 
+	Color colors[] = { Color.YELLOW, Color.GREEN, Color.LIGHT_GRAY, Color.ORANGE, Color.RED };
+	Random rand = new Random();
+
+	float r = rand.nextFloat();
+	float g = rand.nextFloat();
+	float b = rand.nextFloat();
+
+	int colorChangeDelay = 0;
+
+	Color randomColor = new Color(r, g, b);
+
 	JProgressBar happinessBar = new JProgressBar();
 
 	Thread stepper;
@@ -38,7 +50,7 @@ public class CompanionPanel extends JPanel implements Runnable {
 	int blinkWidth = 10;
 	int blinkHeight = 10;
 
-	int happiness = 4;
+	int happiness = 5;
 
 	int incorrectCount = 0;
 	int correctCount = 0;
@@ -124,7 +136,7 @@ public class CompanionPanel extends JPanel implements Runnable {
 	public void run() {
 		while (true) {
 			if (happiness < 5) {
-				if (blinkDelay == 100) {
+				if (blinkDelay == 50) {
 					blink = true;
 
 					repaint();
@@ -136,6 +148,7 @@ public class CompanionPanel extends JPanel implements Runnable {
 					blinkDelay = 0;
 				} else {
 					blink = false;
+
 					repaint();
 				}
 				try {
@@ -152,6 +165,7 @@ public class CompanionPanel extends JPanel implements Runnable {
 					} else {
 						yPos -= 15;
 					}
+					colorChangeDelay++;
 					repaint();
 					try {
 						Thread.sleep(100);
@@ -164,6 +178,7 @@ public class CompanionPanel extends JPanel implements Runnable {
 					} else {
 						yPos += 15;
 					}
+					colorChangeDelay++;
 					repaint();
 					try {
 						Thread.sleep(100);
@@ -176,6 +191,7 @@ public class CompanionPanel extends JPanel implements Runnable {
 					} else {
 						yPos -= 15;
 					}
+					colorChangeDelay++;
 					repaint();
 					try {
 						Thread.sleep(100);
@@ -188,16 +204,26 @@ public class CompanionPanel extends JPanel implements Runnable {
 					runState = 0;
 				}
 			}
+
+			if (colorChangeDelay > 10) {
+				r = rand.nextFloat();
+				g = rand.nextFloat();
+				b = rand.nextFloat();
+
+				randomColor = new Color(r, g, b);
+
+				colorChangeDelay = 0;
+			}
 		}
 	}
 
 	public void paintComponent(Graphics face) {
-		Companion companionFace = new InitialCompanion();
-
 		if (paintState == 0) {
 
 		} else {
 			if (happiness < 5) {
+				Companion companionFace = new InitialCompanion();
+				// Depreciated due to decorator
 				// if (blink) {
 				// blinkFace(face, Color.YELLOW);
 				// repaint();
@@ -209,31 +235,51 @@ public class CompanionPanel extends JPanel implements Runnable {
 				case 4:
 					HappierCompanion happier = new HappierCompanion();
 					happier.add(companionFace);
-					happier.draw(face);
+					if (blink) {
+						happier.draw(face, colors[0], true);
+					} else {
+						happier.draw(face, colors[0], false);
+					}
 					break;
 				case 3:
 					HappyCompanion happy = new HappyCompanion();
 					happy.add(companionFace);
-					happy.draw(face);
+					if (blink) {
+						happy.draw(face, colors[1], true);
+					} else {
+						happy.draw(face, colors[1], false);
+					}
 					break;
 				case 2:
 					NeutralCompanion neutral = new NeutralCompanion();
 					neutral.add(companionFace);
-					neutral.draw(face);
+					if (blink) {
+						neutral.draw(face, colors[2], true);
+					} else {
+						neutral.draw(face, colors[2], false);
+					}
 					break;
 				case 1:
 					WorriedCompanion worried = new WorriedCompanion();
 					worried.add(companionFace);
-					worried.draw(face);
+					if (blink) {
+						worried.draw(face, colors[2], true);
+					} else {
+						worried.draw(face, colors[3], false);
+					}
 					break;
 				default:
 					SadCompanion sad = new SadCompanion();
 					sad.add(companionFace);
-					sad.draw(face);
+					if (blink) {
+						sad.draw(face, colors[4], true);
+					} else {
+						sad.draw(face, colors[4], false);
+					}
 					break;
 				}
 			} else {
-				superHappyFace(face, Color.YELLOW);
+				superHappyFace(face, randomColor);
 				repaint();
 			}
 		}
@@ -250,53 +296,54 @@ public class CompanionPanel extends JPanel implements Runnable {
 		happinessBar.setPreferredSize(new Dimension(300, 30));
 	}
 
-	public void initialFace(Graphics face, Color color) {
-		switch (happiness) {
-		case 5:
-			break;
-		case 4:
-			face.setColor(Color.YELLOW);
-			break;
-		case 3:
-			face.setColor(Color.GREEN);
-			break;
-		case 2:
-			face.setColor(Color.LIGHT_GRAY);
-			break;
-		case 1:
-			face.setColor(Color.ORANGE);
-			break;
-		default:
-			face.setColor(Color.RED);
-			break;
-		}
-		face.fillOval(120, 120, 150, 150);
-		// left eye
-		face.setColor(Color.black);
-		face.fillOval(160, 160, 10, 10);
-		// right eye
-		face.fillOval(220, 160, 10, 10);
-		// mouth
-		switch (happiness) {
-		case 5:
-			break;
-		case 4:
-			face.fillArc(145, 145, 100, 100, 180, 180);
-			break;
-		case 3:
-			face.fillArc(145, 195, 100, 50, 180, 180);
-			break;
-		case 2:
-			face.fillRect(145, 215, 100, 10);
-			break;
-		case 1:
-			face.drawArc(145, 200, 100, 60, 180, -180);
-			break;
-		default:
-			face.fillArc(145, 195, 100, 100, 180, -180);
-			break;
-		}
-	}
+	// Depreciated due to Decorator implementation
+	// public void initialFace(Graphics face, Color color) {
+	// switch (happiness) {
+	// case 5:
+	// break;
+	// case 4:
+	// face.setColor(Color.YELLOW);
+	// break;
+	// case 3:
+	// face.setColor(Color.GREEN);
+	// break;
+	// case 2:
+	// face.setColor(Color.LIGHT_GRAY);
+	// break;
+	// case 1:
+	// face.setColor(Color.ORANGE);
+	// break;
+	// default:
+	// face.setColor(Color.RED);
+	// break;
+	// }
+	// face.fillOval(120, 120, 150, 150);
+	// // left eye
+	// face.setColor(Color.black);
+	// face.fillOval(160, 160, 10, 10);
+	// // right eye
+	// face.fillOval(220, 160, 10, 10);
+	// // mouth
+	// switch (happiness) {
+	// case 5:
+	// break;
+	// case 4:
+	// face.fillArc(145, 145, 100, 100, 180, 180);
+	// break;
+	// case 3:
+	// face.fillArc(145, 195, 100, 50, 180, 180);
+	// break;
+	// case 2:
+	// face.fillRect(145, 215, 100, 10);
+	// break;
+	// case 1:
+	// face.drawArc(145, 200, 100, 60, 180, -180);
+	// break;
+	// default:
+	// face.fillArc(145, 195, 100, 100, 180, -180);
+	// break;
+	// }
+	// }
 
 	public void blinkFace(Graphics face, Color color) {
 		face.setColor(color);
@@ -329,7 +376,7 @@ public class CompanionPanel extends JPanel implements Runnable {
 	}
 
 	public void superHappyFace(Graphics face, Color color) {
-		face.setColor(Color.yellow);
+		face.setColor(randomColor);
 		face.fillOval(xPos, yPos, 150, 150);
 		// left eye
 		face.setColor(Color.black);
