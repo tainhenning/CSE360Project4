@@ -34,30 +34,36 @@ public class CompanionPanel extends JPanel implements Runnable {
 	float r = rand.nextFloat();
 	float g = rand.nextFloat();
 	float b = rand.nextFloat();
-	
-	//Delay for color change of SuperHappyFace
-	int colorChangeDelay = 0;
 
+	//Creates color out of varaibles
 	Color randomColor = new Color(r, g, b);
-
+	
+	//Happiness meter initialized
 	JProgressBar happinessBar = new JProgressBar();
 
+	//Animation thread
 	Thread stepper;
-
+	
+	//Control variable for animation thread
 	int runState = 0;
-
+	
+	//Used for SuperHappyFace wall bounce
 	Dimension panelSize;
 
 	int xPos;
 	int yPos;
 
+	//Control variable for blinking animation
 	int blinkDelay = 0;
 
+	//Happiness meter range
 	int happiness = 5;
 
+	//Keeps track of user answer counts
 	int incorrectCount = 0;
 	int correctCount = 0;
 
+	//Boolean state for blink animation
 	boolean blink = false;
 
 	public CompanionPanel() {
@@ -65,6 +71,7 @@ public class CompanionPanel extends JPanel implements Runnable {
 		setPreferredSize(new Dimension(400, 400));
 		add(nameLabel);
 
+		
 		viewHappinessBar();
 
 		yPos = 120;
@@ -168,7 +175,6 @@ public class CompanionPanel extends JPanel implements Runnable {
 					} else {
 						yPos -= 15;
 					}
-					colorChangeDelay++;
 					repaint();
 					try {
 						Thread.sleep(100);
@@ -181,7 +187,6 @@ public class CompanionPanel extends JPanel implements Runnable {
 					} else {
 						yPos += 15;
 					}
-					colorChangeDelay++;
 					repaint();
 					try {
 						Thread.sleep(100);
@@ -194,7 +199,6 @@ public class CompanionPanel extends JPanel implements Runnable {
 					} else {
 						yPos -= 15;
 					}
-					colorChangeDelay++;
 					repaint();
 					try {
 						Thread.sleep(100);
@@ -213,8 +217,6 @@ public class CompanionPanel extends JPanel implements Runnable {
 				b = rand.nextFloat();
 
 				randomColor = new Color(r, g, b);
-
-				colorChangeDelay = 0;
 		}
 	}
 	

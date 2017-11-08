@@ -57,7 +57,6 @@ public class DescriptorPanel extends JPanel {
 	public void prepareGUI() {
 		// mainText.setBackground(Color.black);
 		// mainText.setForeground(Color.white);
-		mainText.setPreferredSize(new Dimension(100, 100));
 		mainText.setOpaque(false);
 		mainText.setEditable(false);
 		this.setLayout(new BorderLayout());
