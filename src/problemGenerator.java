@@ -2,7 +2,7 @@ package Project03;
 import java.util.Random;
 
 
-public class problemGenerator {
+public class ProblemGenerator {
     //Spencer Duchene
     // This class can be used by calling the wanted problem generator then calling getProblemSolution(); and
     // getFakeSolution 1-3

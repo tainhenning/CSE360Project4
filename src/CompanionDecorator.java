@@ -9,7 +9,7 @@ public class CompanionDecorator implements Companion {
 		this.c = c;
 	}
 	
-	public void draw(Graphics face, Color color, boolean blink) {
-		this.c.draw(face, color, blink);
+	public void draw(Graphics face, Color color, boolean blink, boolean excited, int xPos, int yPos) {
+		this.c.draw(face, color, blink, excited, xPos, yPos);
 	}
 }

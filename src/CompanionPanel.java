@@ -7,9 +7,9 @@ package Project03;
  */
 import java.awt.*;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
+
+@SuppressWarnings("serial")
 
 /*
  * File: Tutor.java
@@ -18,19 +18,24 @@ import javax.swing.*;
  * Group: 1
  */
 public class CompanionPanel extends JPanel implements Runnable {
-
+	
+	//Checks for program start and displays initial panel
 	int paintState;
 	JPanel layoutPanel = new JPanel();
 	GridBagConstraints gbc = new GridBagConstraints();
 	JLabel nameLabel = new JLabel("Companion Area");
 
+	//Colors used for faces
 	Color colors[] = { Color.YELLOW, Color.GREEN, Color.LIGHT_GRAY, Color.ORANGE, Color.RED };
+	//Random seed for SuperHappyFace color changes
 	Random rand = new Random();
 
+	//SuperHappyFace color RGB values
 	float r = rand.nextFloat();
 	float g = rand.nextFloat();
 	float b = rand.nextFloat();
-
+	
+	//Delay for color change of SuperHappyFace
 	int colorChangeDelay = 0;
 
 	Color randomColor = new Color(r, g, b);
@@ -47,8 +52,6 @@ public class CompanionPanel extends JPanel implements Runnable {
 	int yPos;
 
 	int blinkDelay = 0;
-	int blinkWidth = 10;
-	int blinkHeight = 10;
 
 	int happiness = 5;
 
@@ -205,7 +208,6 @@ public class CompanionPanel extends JPanel implements Runnable {
 				}
 			}
 
-			if (colorChangeDelay > 10) {
 				r = rand.nextFloat();
 				g = rand.nextFloat();
 				b = rand.nextFloat();
@@ -213,78 +215,9 @@ public class CompanionPanel extends JPanel implements Runnable {
 				randomColor = new Color(r, g, b);
 
 				colorChangeDelay = 0;
-			}
 		}
 	}
-
-	public void paintComponent(Graphics face) {
-		if (paintState == 0) {
-
-		} else {
-			if (happiness < 5) {
-				Companion companionFace = new InitialCompanion();
-				// Depreciated due to decorator
-				// if (blink) {
-				// blinkFace(face, Color.YELLOW);
-				// repaint();
-				// } else {
-				// initialFace(face, Color.YELLOW);
-				// repaint();
-				// }
-				switch (happiness) {
-				case 4:
-					HappierCompanion happier = new HappierCompanion();
-					happier.add(companionFace);
-					if (blink) {
-						happier.draw(face, colors[0], true);
-					} else {
-						happier.draw(face, colors[0], false);
-					}
-					break;
-				case 3:
-					HappyCompanion happy = new HappyCompanion();
-					happy.add(companionFace);
-					if (blink) {
-						happy.draw(face, colors[1], true);
-					} else {
-						happy.draw(face, colors[1], false);
-					}
-					break;
-				case 2:
-					NeutralCompanion neutral = new NeutralCompanion();
-					neutral.add(companionFace);
-					if (blink) {
-						neutral.draw(face, colors[2], true);
-					} else {
-						neutral.draw(face, colors[2], false);
-					}
-					break;
-				case 1:
-					WorriedCompanion worried = new WorriedCompanion();
-					worried.add(companionFace);
-					if (blink) {
-						worried.draw(face, colors[2], true);
-					} else {
-						worried.draw(face, colors[3], false);
-					}
-					break;
-				default:
-					SadCompanion sad = new SadCompanion();
-					sad.add(companionFace);
-					if (blink) {
-						sad.draw(face, colors[4], true);
-					} else {
-						sad.draw(face, colors[4], false);
-					}
-					break;
-				}
-			} else {
-				superHappyFace(face, randomColor);
-				repaint();
-			}
-		}
-	}
-
+	
 	public void viewHappinessBar() {
 		happinessBar.setStringPainted(true);
 		happinessBar.setString("Happiness Level");
@@ -296,94 +229,68 @@ public class CompanionPanel extends JPanel implements Runnable {
 		happinessBar.setPreferredSize(new Dimension(300, 30));
 	}
 
-	// Depreciated due to Decorator implementation
-	// public void initialFace(Graphics face, Color color) {
-	// switch (happiness) {
-	// case 5:
-	// break;
-	// case 4:
-	// face.setColor(Color.YELLOW);
-	// break;
-	// case 3:
-	// face.setColor(Color.GREEN);
-	// break;
-	// case 2:
-	// face.setColor(Color.LIGHT_GRAY);
-	// break;
-	// case 1:
-	// face.setColor(Color.ORANGE);
-	// break;
-	// default:
-	// face.setColor(Color.RED);
-	// break;
-	// }
-	// face.fillOval(120, 120, 150, 150);
-	// // left eye
-	// face.setColor(Color.black);
-	// face.fillOval(160, 160, 10, 10);
-	// // right eye
-	// face.fillOval(220, 160, 10, 10);
-	// // mouth
-	// switch (happiness) {
-	// case 5:
-	// break;
-	// case 4:
-	// face.fillArc(145, 145, 100, 100, 180, 180);
-	// break;
-	// case 3:
-	// face.fillArc(145, 195, 100, 50, 180, 180);
-	// break;
-	// case 2:
-	// face.fillRect(145, 215, 100, 10);
-	// break;
-	// case 1:
-	// face.drawArc(145, 200, 100, 60, 180, -180);
-	// break;
-	// default:
-	// face.fillArc(145, 195, 100, 100, 180, -180);
-	// break;
-	// }
-	// }
+	public void paintComponent(Graphics face) {
+		if (paintState == 0) {
 
-	public void blinkFace(Graphics face, Color color) {
-		face.setColor(color);
-		face.fillOval(120, 120, 150, 150);
-		// left eye
-		face.setColor(Color.BLACK);
-		face.drawLine(160, 165, 170, 165);
-		// right eye
-		face.drawLine(220, 165, 230, 165);
-		// mouth
-		switch (happiness) {
-		case 5:
-			break;
-		case 4:
-			face.fillArc(145, 145, 100, 100, 180, 180);
-			break;
-		case 3:
-			face.fillArc(145, 195, 100, 50, 180, 180);
-			break;
-		case 2:
-			face.fillRect(145, 215, 100, 10);
-			break;
-		case 1:
-			face.drawArc(145, 200, 100, 60, 180, -180);
-			break;
-		default:
-			face.fillArc(145, 195, 100, 100, 180, -180);
-			break;
+		} else {
+			Companion companionFace = new InitialCompanion();
+			
+			if (happiness < 5) {
+								
+				switch (happiness) {
+				case 4:
+					HappierCompanion happier = new HappierCompanion();
+					happier.add(companionFace);
+					if (blink) {
+						happier.draw(face, colors[0], true, false, 0, 0);
+					} else {
+						happier.draw(face, colors[0], false, false, 0, 0);
+					}
+					break;
+				case 3:
+					HappyCompanion happy = new HappyCompanion();
+					happy.add(companionFace);
+					if (blink) {
+						happy.draw(face, colors[1], true, false, 0, 0);
+					} else {
+						happy.draw(face, colors[1], false, false, 0, 0);
+					}
+					break;
+				case 2:
+					NeutralCompanion neutral = new NeutralCompanion();
+					neutral.add(companionFace);
+					if (blink) {
+						neutral.draw(face, colors[2], true, false, 0, 0);
+					} else {
+						neutral.draw(face, colors[2], false, false, 0, 0);
+					}
+					break;
+				case 1:
+					WorriedCompanion worried = new WorriedCompanion();
+					worried.add(companionFace);
+					if (blink) {
+						worried.draw(face, colors[3], true, false, 0, 0);
+					} else {
+						worried.draw(face, colors[3], false, false, 0, 0);
+					}
+					break;
+				default:
+					SadCompanion sad = new SadCompanion();
+					sad.add(companionFace);
+					if (blink) {
+						sad.draw(face, colors[4], true, false, 0, 0);
+					} else {
+						sad.draw(face, colors[4], false, false, 0, 0);
+					}
+					break;
+				}
+			} else {
+				SuperHappyCompanion superHappy = new SuperHappyCompanion();
+				superHappy.add(companionFace);
+				
+				superHappy.draw(face, randomColor, false, true, xPos, yPos);
+				repaint();
+			}
 		}
-	}
-
-	public void superHappyFace(Graphics face, Color color) {
-		face.setColor(randomColor);
-		face.fillOval(xPos, yPos, 150, 150);
-		// left eye
-		face.setColor(Color.black);
-		face.fillOval(xPos + 40, yPos + 55, 10, 10);
-		// right eye
-		face.fillOval(xPos + 100, yPos + 55, 10, 10);
-		// mouth
-		face.fillArc(xPos + 25, yPos + 25, 100, 100, 180, 180);
 	}
 }

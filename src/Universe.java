@@ -21,23 +21,16 @@ public class Universe extends JFrame implements ChangeListener {
 
     //Sets up all components
     private JFrame mainFrame = new JFrame("CSE360 Project One");
-    private JPanel contentPane = new JPanel();
-
-    private JPanel layoutPanel1 = new JPanel();
-    private JPanel layoutPanel2 = new JPanel();
-    private JPanel layoutPanel3 = new JPanel();
     private JPanel namePanel = new JPanel();
-
-    private JLabel nameLabel = new JLabel("Tain Henning");
-
+    
     private Border raisedbevel = BorderFactory.createRaisedBevelBorder();
     private Border loweredbevel = BorderFactory.createLoweredBevelBorder();
 
     //Instantiate class objects
     private final CompanionPanel a = new CompanionPanel();
-    private final Tutor b = new Tutor();
-    private final Assessor c = new Assessor(this);
-    private final Descriptor d = new Descriptor();
+    private final TutorPanel b = new TutorPanel();
+    private final AssessorPanel c = new AssessorPanel(this);
+    private final DescriptorPanel d = new DescriptorPanel();
     private JSlider slider1 = new JSlider(1, 2, 1);
 
     //Initial state
@@ -46,8 +39,6 @@ public class Universe extends JFrame implements ChangeListener {
     //Constructor
     public Universe() {
         prepareGUI();
-
-        System.out.println(a.getSize());
     }
 
     public static void main(String[] args) {
