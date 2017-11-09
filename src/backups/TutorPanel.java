@@ -1,4 +1,4 @@
-package project04;
+package Project03;
 /*
  * Description:  Displays the lesson notes for the user to read. This will explain to the user how to
  * about approaching the questions that are given in the lesson, and are visible at all times during

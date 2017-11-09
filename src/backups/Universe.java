@@ -1,4 +1,4 @@
-package project04;
+package Project03;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,18 +32,12 @@ public class Universe extends JFrame implements ChangeListener {
     private final AssessorPanel c = new AssessorPanel(this);
     private final DescriptorPanel d = new DescriptorPanel();
     private JSlider slider1 = new JSlider(1, 2, 1);
-    
-    public final Assessor assessor = new Assessor();
 
     //Initial state
     private int state = 0;
 
     //Constructor
     public Universe() {
-    		assessor.setHappiness(4);
-		c.setAssessor(assessor);
-		a.setAssessor(assessor);
-    		assessor.setHappiness(4);
         prepareGUI();
     }
 
@@ -123,18 +117,23 @@ public class Universe extends JFrame implements ChangeListener {
 
                 if ((int)source.getValue() != 1) {
                     state = 1;
-                    c.changeState((int)source.getValue());
+                    c.setState((int)source.getValue());
                     b.changeState((int)source.getValue());
                     a.changeState((int)source.getValue());
                     d.changeState(state);
                 }
             }
             else {
-                c.changeState((int)source.getValue());
+                c.setState((int)source.getValue());
                 b.changeState((int)source.getValue());
                 a.changeState((int)source.getValue());
                 d.changeState((int)source.getValue());
             }
         }
+    }
+
+    public void setQuestionsCounts() {
+        a.setCorrectCount(c.getCorrectAnswerCount());
+        a.setIncorrectCount(c.getWrongAnswerCount());
     }
 }

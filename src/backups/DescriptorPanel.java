@@ -1,4 +1,4 @@
-package project04;
+package Project03;
 
 import java.awt.*;
 import javax.swing.*;
@@ -17,24 +17,22 @@ public class DescriptorPanel extends JPanel {
 
 	GridBagConstraints gbc = new GridBagConstraints();
 
-//	static JTextPane mainText = new JTextPane();
-//	static StyledDocument doc = (StyledDocument) mainText.getDocument();
-	
-	private static JLabel responseText = new JLabel();
+	static JTextPane mainText = new JTextPane();
+	static StyledDocument doc = (StyledDocument) mainText.getDocument();
 
 	public DescriptorPanel() {
 
 		this.setVisible(true);
 
-//		try {
-//
-//			SimpleAttributeSet center = new SimpleAttributeSet();
-//			StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-//			doc.setParagraphAttributes(0, doc.getLength() - 1, center, false);
-//		} catch (Exception ex) {
-//
-//			ex.printStackTrace();
-//		}
+		try {
+
+			SimpleAttributeSet center = new SimpleAttributeSet();
+			StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+			doc.setParagraphAttributes(0, doc.getLength() - 1, center, false);
+		} catch (Exception ex) {
+
+			ex.printStackTrace();
+		}
 
 		firstLoad();
 		// prepareGUI();
@@ -59,35 +57,33 @@ public class DescriptorPanel extends JPanel {
 	public void prepareGUI() {
 		// mainText.setBackground(Color.black);
 		// mainText.setForeground(Color.white);
-		responseText.setOpaque(false);
-		this.setLayout(new GridBagLayout());
+		mainText.setOpaque(false);
+		mainText.setEditable(false);
+		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(400, 400));
-		responseText.setLayout(new BorderLayout());
-		this.add(responseText, gbc);
+		mainText.setLayout(new BorderLayout());
+		this.add(mainText);
 	}
 
 	public static void appendText(boolean bol) throws BadLocationException // to implement just type
 																			// Descriptor.appendText(boolean value);
 	{
 		if (appendCount == 24) {
-			responseText.setText("");
+			mainText.setText("");
 			appendCount = 0;
 		}
 
 		if (bol == true) {
 			System.out.println("Correct\n");
-//			doc.insertString(doc.getLength(), "Correct!\n", null);
-			responseText.setText("Correct!");
+			doc.insertString(doc.getLength(), "Correct!\n", null);
 			// mainText.append("Correct!\n");
 			correctAmount++;
 			if (correctAmount > 6) {
-//				doc.insertString(doc.getLength(), "Lesson completed!\n", null);
-				responseText.setText("Lesson Completed!");
+				doc.insertString(doc.getLength(), "Lesson completed!\n", null);
 				// mainText.append("Lesson completed!\n");
 			}
 		} else
-//			doc.insertString(doc.getLength(), "Incorrect!\n", null);
-			responseText.setText("Incorrect!");
+			doc.insertString(doc.getLength(), "Incorrect!\n", null);
 		// mainText.append("Incorrect\n");
 		appendCount++;
 

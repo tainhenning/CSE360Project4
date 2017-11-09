@@ -1,4 +1,4 @@
-package project04;
+package Project03;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,8 +6,6 @@ package project04;
  * and open the template in the editor.
  */
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
 import javax.swing.*;
 
@@ -19,71 +17,64 @@ import javax.swing.*;
  * Course: CSE 360
  * Group: 1
  */
-public class CompanionPanel extends JPanel implements Runnable, Observer {
+public class CompanionPanel extends JPanel implements Runnable {
 	
 	//Checks for program start and displays initial panel
 	int paintState;
-	public JPanel layoutPanel = new JPanel();
-	public GridBagConstraints gbc = new GridBagConstraints();
-	public JLabel nameLabel = new JLabel("Companion Area");
-	
-	private Observable assessor;
+	JPanel layoutPanel = new JPanel();
+	GridBagConstraints gbc = new GridBagConstraints();
+	JLabel nameLabel = new JLabel("Companion Area");
 
 	//Colors used for faces
-	public Color colors[] = { Color.YELLOW, Color.GREEN, Color.LIGHT_GRAY, Color.ORANGE, Color.RED };
+	Color colors[] = { Color.YELLOW, Color.GREEN, Color.LIGHT_GRAY, Color.ORANGE, Color.RED };
 	//Random seed for SuperHappyFace color changes
-	public Random rand = new Random();
+	Random rand = new Random();
 
 	//SuperHappyFace color RGB values
-	public float r = rand.nextFloat();
-	public float g = rand.nextFloat();
-	public float b = rand.nextFloat();
-	
+	float r = rand.nextFloat();
+	float g = rand.nextFloat();
+	float b = rand.nextFloat();
+
 	//Creates color out of varaibles
-	public Color randomColor = new Color(r, g, b);
+	Color randomColor = new Color(r, g, b);
 	
 	//Happiness meter initialized
-	public JProgressBar happinessBar = new JProgressBar();
+	JProgressBar happinessBar = new JProgressBar();
 
 	//Animation thread
-	private Thread stepper;
+	Thread stepper;
 	
 	//Control variable for animation thread
-	private int runState = 0;
+	int runState = 0;
 	
 	//Used for SuperHappyFace wall bounce
-	private Dimension panelSize;
+	Dimension panelSize;
 
-	private int xPos;
-	private int yPos;
+	int xPos;
+	int yPos;
 
 	//Control variable for blinking animation
-	public int blinkDelay = 0;
+	int blinkDelay = 0;
 
 	//Happiness meter range
-	public int happiness;
+	int happiness = 5;
 
 	//Keeps track of user answer counts
-	public int incorrectCount = 0;
-	public int correctCount = 0;
+	int incorrectCount = 0;
+	int correctCount = 0;
 
 	//Boolean state for blink animation
-	public boolean blink = false;
+	boolean blink = false;
 
 	public CompanionPanel() {
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 400));
 		add(nameLabel);
+
 		
 		viewHappinessBar();
 
 		yPos = 120;
-	}
-	
-	public void setAssessor(Assessor assessor) {
-		this.assessor = assessor;
-		assessor.addObserver(this);
-		happiness = assessor.getHappiness();
 	}
 
 	public void start() {
@@ -122,27 +113,27 @@ public class CompanionPanel extends JPanel implements Runnable, Observer {
 		yPos = 120;
 	}
 
-//	public void setCorrectCount(int count) {
-//		if (correctCount < count) {
-//			if (happiness < 5) {
-//				happiness++;
-//			}
-//		}
-//
-//		correctCount = count;
-//		System.out.println(correctCount);
-//	}
-//
-//	public void setIncorrectCount(int count) {
-//		if (incorrectCount < count) {
-//			if (happiness > 0) {
-//				happiness--;
-//			}
-//		}
-//
-//		incorrectCount = count;
-//		System.out.println(incorrectCount);
-//	}
+	public void setCorrectCount(int count) {
+		if (correctCount < count) {
+			if (happiness < 5) {
+				happiness++;
+			}
+		}
+
+		correctCount = count;
+		System.out.println(correctCount);
+	}
+
+	public void setIncorrectCount(int count) {
+		if (incorrectCount < count) {
+			if (happiness > 0) {
+				happiness--;
+			}
+		}
+
+		incorrectCount = count;
+		System.out.println(incorrectCount);
+	}
 
 	public void checkHappiness() {
 		happinessBar.setValue(happiness);
@@ -303,11 +294,5 @@ public class CompanionPanel extends JPanel implements Runnable, Observer {
 				repaint();
 			}
 		}
-	}
-
-	public void update(Observable o, Object arg) {
-		happiness = ((Assessor) o).getHappiness();
-		
-		System.out.println("Current Happiness: " + happiness);
 	}
 }

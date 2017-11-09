@@ -1,4 +1,4 @@
-package project04;
+package Project03;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,8 +7,6 @@ package project04;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -20,7 +18,7 @@ import javax.swing.text.BadLocationException;
  * Course: CSE 360
  * Group: 1
  */
-public class AssessorPanel extends JPanel implements ActionListener, Observer {
+public class AssessorPanel extends JPanel implements ActionListener, ItemListener, FocusListener {
 
     //Initialize state at 0
     int state = 0;
@@ -47,7 +45,6 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
     JButton submit = new JButton("Submit");
     
     Universe parentFrame;
-    Assessor assessor;
 
     //GLOBALS
     //Solution strings
@@ -76,11 +73,6 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
         setQuestions(correctCount);
         //Runs to update and initialize first run components to GUI
         updateGUI();
-    }
-    
-    public void setAssessor(Assessor assessor) {
-    		this.assessor = assessor;
-    		assessor.addObserver(this);
     }
 
     //Used to set up first time elements of the GUI
@@ -178,7 +170,7 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
         updateGUI();
     }
 
-    public void changeState(int newState)
+    public void setState(int newState)
     {
         //sets the global state to the new state passed into this method.
         state = newState;
@@ -341,8 +333,6 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 					}
                     correctCount++;
                     setQuestions(correctCount);
-                    
-                    assessor.answerCorrect();
                 }
                 else
                 {
@@ -354,14 +344,12 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 					}
                     wrongCount++;
                     setQuestions(correctCount);
-                    
-                    assessor.answerIncorrect();
                 }
 
             }
             else if (button2.isSelected() == true)
             {
-                if(position == 2)
+                if(position ==2)
                 {
                     try {
 						DescriptorPanel.appendText(true);
@@ -371,8 +359,6 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 					}
                     correctCount++;
                     setQuestions(correctCount);
-                    
-                    assessor.answerCorrect();
 
                 }
                 else
@@ -385,8 +371,6 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 					}
                     wrongCount++;
                     setQuestions(correctCount);
-                    
-                    assessor.answerIncorrect();
                 }
 
             }
@@ -402,8 +386,6 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 					}
                     correctCount++;
                     setQuestions(correctCount);
-                    
-                    assessor.answerCorrect();
 
                 }
                 else
@@ -416,8 +398,6 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 					}
                     wrongCount++;
                     setQuestions(correctCount);
-                    
-                    assessor.answerIncorrect();
                 }
 
             }
@@ -433,8 +413,6 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 					}
                     correctCount++;
                     setQuestions(correctCount);
-                    
-                    assessor.answerCorrect();
 
                 }
                 else
@@ -447,19 +425,26 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 					}
                     wrongCount++;
                     setQuestions(correctCount);
-                    
-                    assessor.answerIncorrect();
                 }
             }
             System.out.println("Wrong count: " + wrongCount);
             System.out.println("Correct count: " + correctCount);
             
-//            parentFrame.setQuestionsCounts();
+            parentFrame.setQuestionsCounts();
         }
     }
 
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void itemStateChanged(ItemEvent e)
+    {
+        //If change source is checkbox 1
+
+    }
+
+    public void focusGained(FocusEvent e) {
+
+    }
+
+    public void focusLost(FocusEvent e) {
+
+    }
 }

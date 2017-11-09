@@ -1,14 +1,14 @@
-package project04;
+package Project03;
 
 import java.awt.*;
 
-public class SadCompanion extends CompanionDecorator {
+public class WorriedCompanion extends CompanionDecorator {
 	
 	public void draw(Graphics face, Color color, boolean blink, boolean excited, int xPos, int yPos) {
 		super.draw(face, color, blink, excited, xPos, yPos);
 		
 		//mouth
-		face.fillArc(145, 195, 100, 100, 180, -180);
+		face.drawArc(145, 200, 100, 60, 180, -180);
 		
 	}
 }
