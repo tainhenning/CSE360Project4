@@ -66,7 +66,7 @@ public class DescriptorPanel extends JPanel {
 		this.add(responseText, gbc);
 	}
 
-	public static void appendText(boolean bol) throws BadLocationException // to implement just type
+	public static void appendText(boolean bol) // to implement just type
 																			// Descriptor.appendText(boolean value);
 	{
 		if (appendCount == 24) {
