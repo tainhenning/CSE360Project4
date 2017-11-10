@@ -84,6 +84,7 @@ public class CompanionPanel extends JPanel implements Runnable, Observer {
 		this.assessor = assessor;
 		assessor.addObserver(this);
 		happiness = assessor.getHappiness();
+		viewHappinessBar();
 	}
 
 	public void start() {
@@ -107,6 +108,7 @@ public class CompanionPanel extends JPanel implements Runnable, Observer {
 			gbc.weighty = 1;
 			gbc.anchor = GridBagConstraints.SOUTHWEST;
 			add(happinessBar, gbc);
+			viewHappinessBar();
 			start();
 		}
 

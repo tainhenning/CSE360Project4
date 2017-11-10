@@ -47,6 +47,7 @@ public class Universe extends JFrame implements ChangeListener {
 		assessor.setHappiness(4);
 		
 		c.setControlCenter(controlCenter);
+		d.setControlCenter(controlCenter);
 		
 		prepareGUI();
 	}

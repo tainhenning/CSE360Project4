@@ -28,7 +28,7 @@ public class ControlCenter {
 
 	private long timerStart;
 	private long timerEnd;
-	private long questionTime;
+	private float questionTime;
 
 	private int attempts = 1;
 
@@ -66,6 +66,22 @@ public class ControlCenter {
 	public int getCurrentQuestion() {
 		return currentQuestion;
 	}
+	
+	public int getCorrectCount() {
+		return correctCount[currentLesson];
+	}
+	
+	public int getIncorrectCount() {
+		return incorrectCount[currentLesson];
+	}
+	
+	public int getAttempts() {
+		return attempts;
+	}
+	
+	public float getQuestionTime() {
+		return timeSpentPerQuestion[currentQuestion - 1];
+	}
 
 	public void answerCorrect() {
 		timerStop();
@@ -86,18 +102,18 @@ public class ControlCenter {
 	}
 
 	public void timerSet() {
-		timerStart = System.nanoTime();
+		timerStart = System.currentTimeMillis();
 	}
 
 	public void timerStop() {
-		timerEnd = (long) (System.nanoTime() / 1000000.00);
+		timerEnd = System.currentTimeMillis() - timerStart;
 		
-		questionTime = timerEnd - timerStart;
+		questionTime = (float) (timerEnd / 1000.00);
 
-//		String dfStore = format.format(questionTime);
+		String dfStore = format.format(questionTime);
 //
-//		float elapsedTime = Float.valueOf(dfStore);
-//		questionTime = Float.valueOf(dfStore);
+		float elapsedTime = Float.valueOf(dfStore);
+		questionTime = Float.valueOf(dfStore);
 
 		timeSpentPerQuestion[currentQuestion] = questionTime;
 
