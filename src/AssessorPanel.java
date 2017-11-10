@@ -55,12 +55,40 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 	String option1, option2, option3, option4;
 	// global answer option -- NEW v0.1t
 	int position;
-	// eligibility to go to next question -- NEW v0.1t
-	boolean next = false;
 	// amount of wrong answers submitted -- NEW v0.1t
 	int wrongCount = 0;
 	// amount of correct answer submitted -- NEW v0.1t
 	int correctCount = 0;
+	int sectionCount = 0;
+	int lesson = 0;
+	// eligibility to go to next question -- NEW v0.1t
+	boolean next = false;
+
+
+	public int getWrongCount() {
+		return wrongCount;
+	}
+
+	public void setIncorrectCount(int wrongCount) {
+		this.wrongCount = wrongCount;
+	}
+
+	public int getCorrectCount() {
+		return correctCount;
+	}
+
+	public void setCorrectCount(int correctCount) {
+		this.correctCount = correctCount;
+	}
+
+	public int getLesson() {
+		return lesson;
+	}
+
+	public void setLesson(int lesson) {
+		this.lesson = lesson;
+	}
+
 	// --------------------------------------------------------
 	// Append these to newest Assessor.java
 	// --------------------------------------------------------
@@ -93,28 +121,88 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 	}
 
 	// Used to set up first time elements of the GUI
-	public void setQuestions(int correctCount) {
+	public void setQuestions(int lesson, correctCount) {
 
 		Random placement = new Random();
 		position = placement.nextInt(4);
 		ProblemGenerator problemToSolve = new ProblemGenerator();
 		// final problem set for section
-		if (correctCount >= 6) {
-			// call Tains dialogue for completion. then something?'
-			correctCount = 0;
+
+
+		//Lesson 1 logic
+		if (lesson = 1 && sectionCount >= 10) {
+				// call Tains dialogue for completion. then something?'
+			sectionCount = 0;
 			question.setText(problemToSolve.functionCombiner());
 			setCorrectPosition(position, problemToSolve);
 
-		} else if (correctCount >= 4) {
+		} else if (lesson = 1 && sectionCount >= 6) {
 //			System.out.println("final set");
 			// -- NEW v0.1t added a setAnswer method to set which option is the answer
 			question.setText(problemToSolve.functionCombinerSubtract());
 			setCorrectPosition(position, problemToSolve);
-		} else if (correctCount >= 2) {
+		} else if (lesson = 1 && sectionCount >= 3) {
 //			System.out.println("next set");
 			question.setText(problemToSolve.functionCombineMultiply());
 			setCorrectPosition(position, problemToSolve);
-		} else {
+		}
+		//THIS NEEDS TO BE OPTIMIZED
+		//Lesson 2 logic
+		else if (lesson = 2 && sectionCount >= 6) {
+//			System.out.println("final set");
+			// -- NEW v0.1t added a setAnswer method to set which option is the answer
+			question.setText(problemToSolve.eliminationMethod());
+			setCorrectPosition(position, problemToSolve);
+		} else if (lesson = 2 && sectionCount >= 0) {
+//			System.out.println("next set");
+			question.setText(problemToSolve.dimensionOfMatrix());
+			setCorrectPosition(position, problemToSolve);
+		}
+		//Lesson 3 Logic
+		else if (lesson = 3 && sectionCount >= 6) {
+//			System.out.println("final set");
+			// -- NEW v0.1t added a setAnswer method to set which option is the answer
+			question.setText(problemToSolve.functionCombinerSubtract());
+			setCorrectPosition(position, problemToSolve);
+		} else if (lesson = 3 && sectionCount >= 0) {
+//			System.out.println("next set");
+			question.setText(problemToSolve.functionCombineMultiply());
+			setCorrectPosition(position, problemToSolve);
+		}
+		//Lesson 4 Logic
+		else if (lesson = 4 && sectionCount >= 6) {
+//			System.out.println("final set");
+			// -- NEW v0.1t added a setAnswer method to set which option is the answer
+			question.setText(problemToSolve.functionCombinerSubtract());
+			setCorrectPosition(position, problemToSolve);
+		} else if (lesson = 4 && sectionCount >= 0) {
+//			System.out.println("next set");
+			question.setText(problemToSolve.functionCombineMultiply());
+			setCorrectPosition(position, problemToSolve);
+		}
+		//Lesson 5 Logic
+		else if (lesson = 5 && sectionCount >= 6) {
+//			System.out.println("final set");
+			// -- NEW v0.1t added a setAnswer method to set which option is the answer
+			question.setText(problemToSolve.functionCombinerSubtract());
+			setCorrectPosition(position, problemToSolve);
+		} else if (lesson = 5 && sectionCount >= 0) {
+//			System.out.println("next set");
+			question.setText(problemToSolve.functionCombineMultiply());
+			setCorrectPosition(position, problemToSolve);
+		}
+		//Lesson 6 Logic
+		else if (lesson = 6 && sectionCount >= 6) {
+//			System.out.println("final set");
+			// -- NEW v0.1t added a setAnswer method to set which option is the answer
+			question.setText(problemToSolve.functionCombinerSubtract());
+			setCorrectPosition(position, problemToSolve);
+		} else if (lesson = 6 && sectionCount >= 0) {
+//			System.out.println("next set");
+			question.setText(problemToSolve.functionCombineMultiply());
+			setCorrectPosition(position, problemToSolve);
+		}
+		else {
 			question.setText(problemToSolve.functionCombiner());
 			setCorrectPosition(position, problemToSolve);
 		}
@@ -389,6 +477,7 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 				if (position == 4) {
 					DescriptorPanel.appendText(true);
 					correctCount++;
+
 					setQuestions(correctCount);
 					
 					controlCenter.answerCorrect();

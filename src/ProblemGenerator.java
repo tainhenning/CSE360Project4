@@ -95,7 +95,7 @@ public class ProblemGenerator {
     }
 
     //LESSON 2 STRINGS
-    public String EliminationMethod(){
+    public String eliminationMethod(){
         //Data here is used to create the formula
         Random changing = new Random();
         int xVariable = changing.nextInt(6);
