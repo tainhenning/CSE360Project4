@@ -100,12 +100,12 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 			setCorrectPosition(position, problemToSolve);
 
 		} else if (correctCount >= 4) {
-			System.out.println("final set");
+//			System.out.println("final set");
 			// -- NEW v0.1t added a setAnswer method to set which option is the answer
 			question.setText(problemToSolve.functionCombinerSubtract());
 			setCorrectPosition(position, problemToSolve);
 		} else if (correctCount >= 2) {
-			System.out.println("next set");
+//			System.out.println("next set");
 			question.setText(problemToSolve.functionCombineMultiply());
 			setCorrectPosition(position, problemToSolve);
 		} else {
@@ -235,6 +235,11 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 	public void updateGUI() {
 		// Shows the question label
 		questionLabel.setText("Question " + state + ":");
+                
+                controlCenter.setCurrentLesson(0);
+                controlCenter.setCurrentQuestion(0);
+                controlCenter.newQuestion();
+                
 		// setting main button group
 		group.add(button1);
 		group.add(button2);

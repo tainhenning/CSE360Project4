@@ -1,5 +1,7 @@
 package project04;
 
+import java.text.DecimalFormat;
+
 public class ControlCenter {
 	
 	private static ControlCenter _instance;
@@ -17,12 +19,37 @@ public class ControlCenter {
 	
 	private int[] correctCount = new int[8];
 	private int[] incorrectCount = new int[8];
-	private float[] timeSpentPerQuestion;
-	private float[][] timeSpentPerLessons;
+	private float[] timeSpentPerQuestion = new float[3];
+	private float[][] timeSpentPerLessons = new float[8][];
 	
 	private int currentLesson;
 	
 	private int currentQuestion;
+        
+        private long timerStart;
+        private long timerEnd;
+        private float questionTime;
+        
+        private int attempts = 0;
+        
+        private DecimalFormat format = new DecimalFormat("0.00");
+        
+        public void newQuestion() {
+            timerSet();
+            
+            if (currentQuestion == 10) {
+                newLesson();
+            }
+            else {
+                currentQuestion++;
+                attempts = 1;
+            }
+        }
+        
+        public void newLesson() {
+            currentQuestion = 0;
+            
+        }
 	
 	public void setCurrentLesson(int currentLesson) {
 		this.currentLesson = currentLesson;
@@ -42,20 +69,37 @@ public class ControlCenter {
 	}
 	
 	public void answerCorrect() {
+                timerStop();
 		correctCount[currentLesson]++;
-		for (int i = 0; i < correctCount.length; i++) {
-			System.out.print(correctCount[i]);
-		}
+                
+                newQuestion();
 	}
 	
 	public void answerIncorrect() {
 		incorrectCount[currentLesson]++;
-		for (int i = 0; i < correctCount.length; i++) {
-			System.out.print(incorrectCount[i]);
-		}
+                if (attempts == 2) {
+                    timerStop();
+                    
+                    newQuestion();
+                }
+                else {
+                    attempts++;
+                }
 	}
 	
-	public void timeSet(float time) {
-		
+	public void timerSet() {
+		timerStart = System.nanoTime();
 	}
+        
+        public void timerStop() {
+            timerEnd = System.nanoTime() - timerStart;
+            
+            String dfStore = format.format(timerEnd / 100000.00);
+                
+            questionTime = Float.valueOf(dfStore);
+                
+            timeSpentPerQuestion[currentQuestion] = questionTime;
+                
+            System.out.println("Question Time: " + timeSpentPerQuestion[currentQuestion]);
+        }
 }
