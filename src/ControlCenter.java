@@ -48,6 +48,7 @@ public class ControlCenter {
 	public void newLesson() {
 		currentQuestion = 1;
 		timerSet();
+		
 	}
 
 	public void setCurrentLesson(int currentLesson) {
@@ -92,7 +93,7 @@ public class ControlCenter {
 
 	public void answerIncorrect() {
 		incorrectCount[currentLesson]++;
-		if (attempts == 2) {
+		if (attempts == 3) {
 			timerStop();
 
 			newQuestion();
@@ -111,8 +112,9 @@ public class ControlCenter {
 		questionTime = (float) (timerEnd / 1000.00);
 
 		String dfStore = format.format(questionTime);
-//
+		
 		float elapsedTime = Float.valueOf(dfStore);
+		
 		questionTime = Float.valueOf(dfStore);
 
 		timeSpentPerQuestion[currentQuestion] = questionTime;

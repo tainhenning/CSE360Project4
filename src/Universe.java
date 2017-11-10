@@ -6,6 +6,16 @@ package project04;
  */
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.ChangeEvent;
@@ -17,11 +27,17 @@ import javax.swing.event.ChangeListener;
  * Course: CSE 360
  * Group: 1
  */
-public class Universe extends JFrame implements ChangeListener {
+public class Universe extends JFrame implements ChangeListener, ActionListener {
 
 	// Sets up all components
 	private JFrame mainFrame = new JFrame("CSE360 Project One");
 	private JPanel namePanel = new JPanel();
+
+	// calc button ---------
+	private JButton calc = new JButton("Calculator");
+	Calculator calculator = new Calculator();
+	boolean open = false;
+	// --------------------
 
 	private Border raisedbevel = BorderFactory.createRaisedBevelBorder();
 	private Border loweredbevel = BorderFactory.createLoweredBevelBorder();
@@ -32,9 +48,16 @@ public class Universe extends JFrame implements ChangeListener {
 	private final AssessorPanel c = new AssessorPanel(this);
 	private final DescriptorPanel d = new DescriptorPanel();
 	private JSlider slider1 = new JSlider(1, 2, 1);
+	
+	private JButton startButton = new JButton("Start");
+	private JButton prevLesson = new JButton("Previous Lesson");
+	private JButton nextLesson = new JButton("Next Lesson");
+	private JButton help = new JButton("Help");
 
 	public final Assessor assessor = new Assessor();
 	public final ControlCenter controlCenter = new ControlCenter();
+	
+	private GridBagConstraints gbc = new GridBagConstraints();
 
 	// Initial state
 	private int state = 0;
@@ -43,12 +66,12 @@ public class Universe extends JFrame implements ChangeListener {
 	public Universe() {
 		c.setAssessor(assessor);
 		a.setAssessor(assessor);
-		
+
 		assessor.setHappiness(4);
-		
+
 		c.setControlCenter(controlCenter);
 		d.setControlCenter(controlCenter);
-		
+
 		prepareGUI();
 	}
 
@@ -63,7 +86,6 @@ public class Universe extends JFrame implements ChangeListener {
 		mainFrame.setLayout(new GridBagLayout());
 
 		// Constraints for GridBagLayout
-		GridBagConstraints gbc = new GridBagConstraints();
 
 		// Creates borders
 		a.setBorder(BorderFactory.createCompoundBorder(raisedbevel, loweredbevel));
@@ -98,12 +120,12 @@ public class Universe extends JFrame implements ChangeListener {
 		gbc.gridy = 2;
 
 		mainFrame.add(d, gbc);
-
-		slider1.setSnapToTicks(true);
-		slider1.setPaintTicks(true);
-		slider1.setMajorTickSpacing(1);
-
-		slider1.addChangeListener(this);
+//
+//		slider1.setSnapToTicks(true);
+//		slider1.setPaintTicks(true);
+//		slider1.setMajorTickSpacing(1);
+//
+//		slider1.addChangeListener(this);
 
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridwidth = 4;
@@ -111,7 +133,10 @@ public class Universe extends JFrame implements ChangeListener {
 		gbc.gridy = 4;
 		gbc.weighty = 1000;
 
-		mainFrame.add(slider1, gbc);
+		mainFrame.add(startButton, gbc);
+		startButton.addActionListener(this);
+		
+		calc.addActionListener(this);
 
 		mainFrame.pack();
 		mainFrame.setVisible(true);
@@ -140,5 +165,65 @@ public class Universe extends JFrame implements ChangeListener {
 				d.changeState((int) source.getValue());
 			}
 		}
+	}
+
+	public void playSound(String soundFile) {
+		try {
+			URL url = this.getClass().getClassLoader().getResource(soundFile);
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioIn);
+			clip.start();
+		} catch (UnsupportedAudioFileException g) {
+			g.printStackTrace();
+		} catch (IOException g) {
+			g.printStackTrace();
+		} catch (LineUnavailableException g) {
+			g.printStackTrace();
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == calc) {
+			open = !open;
+			calculator.setVisible(open);
+			playSound("resources/boing_x.wav");
+
+		}
+		
+		if (e.getSource() == startButton) {
+			namePanel.removeAll();
+			mainFrame.remove(startButton);
+			
+			gbc.gridwidth = 1;
+			gbc.gridx = 0;
+			
+			mainFrame.add(prevLesson, gbc);
+			
+			gbc.gridx = 1;
+			
+			mainFrame.add(calc, gbc);
+			
+			gbc.gridx = 2;
+			
+			mainFrame.add(help, gbc);
+			
+			gbc.gridx = 3;
+			
+			mainFrame.add(nextLesson, gbc);
+			
+			mainFrame.revalidate();
+			mainFrame.repaint();
+			mainFrame.pack();
+			mainFrame.setVisible(true);
+			mainFrame.setResizable(false);
+			
+			c.changeState(1);
+			b.changeState(1);
+			a.changeState(1);
+			d.changeState(1);
+		}
+
 	}
 }
