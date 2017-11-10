@@ -6,6 +6,7 @@ import java.awt.Graphics;
 public class SuperHappyCompanion extends CompanionDecorator {
 	
 	public void draw(Graphics face, Color color, boolean blink, boolean excited, int xPos, int yPos) {
+		
 		super.draw(face, color, blink, excited, xPos, yPos);
 		
 		//mouth

@@ -241,6 +241,7 @@ public class CompanionPanel extends JPanel implements Runnable, Observer {
 	}
 
 	public void paintComponent(Graphics face) {
+		super.paintComponent(face);
 		if (paintState == 0) {
 
 		} else {

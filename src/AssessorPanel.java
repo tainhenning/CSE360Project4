@@ -85,6 +85,12 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 		this.assessor = assessor;
 		assessor.addObserver(this);
 	}
+	
+	public void setControlCenter(ControlCenter controlCenter) {
+		this.controlCenter = controlCenter;
+		controlCenter.setCurrentLesson(1);
+        controlCenter.setCurrentQuestion(1);
+	}
 
 	// Used to set up first time elements of the GUI
 	public void setQuestions(int correctCount) {
@@ -234,11 +240,7 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 
 	public void updateGUI() {
 		// Shows the question label
-		questionLabel.setText("Question " + state + ":");
-                
-                controlCenter.setCurrentLesson(0);
-                controlCenter.setCurrentQuestion(0);
-                controlCenter.newQuestion();
+		questionLabel.setText("Question " + controlCenter.getCurrentQuestion() + ":");
                 
 		// setting main button group
 		group.add(button1);
@@ -405,7 +407,8 @@ public class AssessorPanel extends JPanel implements ActionListener, Observer {
 			}
 			System.out.println("Wrong count: " + wrongCount);
 			System.out.println("Correct count: " + correctCount);
-
+			
+			updateGUI();
 			// parentFrame.setQuestionsCounts();
 		}
 	}
